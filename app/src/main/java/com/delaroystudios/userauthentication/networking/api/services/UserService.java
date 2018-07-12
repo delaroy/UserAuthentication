@@ -21,4 +21,9 @@ public interface UserService {
     @FormUrlEncoded
     @POST(Routes.USER_LOGIN)
     Call<UserLogin> userLogin(@Field("username") String username, @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST(Routes.CREATE_TASK)
+    Call<Message> createTask(@Field("title") String title, @Field("username") String username, @Field("taskdate") String taskdate, @Field("tasktime") String tasktime, @Field("task") String task);
+
 }

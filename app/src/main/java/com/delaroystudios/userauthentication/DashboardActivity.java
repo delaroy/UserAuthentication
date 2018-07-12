@@ -1,8 +1,12 @@
 package com.delaroystudios.userauthentication;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Toast;
 
 import com.delaroystudios.userauthentication.utils.PreferenceUtils;
@@ -12,7 +16,8 @@ import com.delaroystudios.userauthentication.utils.PreferenceUtils;
  */
 
 public class DashboardActivity extends AppCompatActivity {
-    private AppCompatTextView name, username;
+    private RecyclerView recyclerView;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,15 +28,16 @@ public class DashboardActivity extends AppCompatActivity {
         String individualName = PreferenceUtils.getName(this);
         String userName = PreferenceUtils.getUsername(this);
 
-        name = findViewById(R.id.name);
-        username = findViewById(R.id.username);
+        recyclerView = findViewById(R.id.recyclerview);
+        fab = findViewById(R.id.fab);
 
-        if (userEmail != null || !userEmail.isEmpty()){
-            name.setText(individualName);
-            username.setText(userName);
-        }else{
-            Toast.makeText(this, "empty values", Toast.LENGTH_SHORT).show();
-        }
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DashboardActivity.this, AddTask.class);
+                startActivity(intent);
+            }
+        });
 
 
     }

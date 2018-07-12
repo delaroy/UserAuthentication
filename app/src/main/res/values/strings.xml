@@ -15,4 +15,10 @@
     <string name="error_message_age">Enter Age</string>
     <string name="error_message_password">Enter Password</string>
     <string name="msg_loading">Loading...</string>
+    <string name="title">Task title</string>
+    <string name="task_date">Task date</string>
+    <string name="desc">Task Description</string>
+    <string name="submit">Submit</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
 </resources>

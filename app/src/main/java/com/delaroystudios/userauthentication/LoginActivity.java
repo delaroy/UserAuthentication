@@ -121,17 +121,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }else if (!inputValidation.isInputEditTextFilled(textInputEditTextPassword, textInputLayoutPassword, getString(R.string.error_message_password))) {
             return;
         }else{
-            String email = textInputEditTextUsername.getText().toString().trim();
+            String username = textInputEditTextUsername.getText().toString().trim();
             String password = textInputEditTextPassword.getText().toString().trim();
 
-            login(email, password);
+            login(username, password);
         }
     }
 
-    private void login(String email, String password){
+    private void login(String username, String password){
         showpDialog();
         UserService loginService = DataServiceGenerator.createService(UserService.class, getApplication(), USER_BASE_URL);
-        Call<UserLogin> call = loginService.userLogin(email, password);
+        Call<UserLogin> call = loginService.userLogin(username, password);
 
         call.enqueue(new Callback<UserLogin>() {
             @Override
@@ -142,22 +142,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         UserLogin message = response.body();
 
                         String name = message.getName();
-                        String email = message.getEmail();
                         String username = message.getUsername();
                         boolean error = message.getError();
 
                         if (error == Boolean.FALSE){
                             PreferenceUtils.saveName(name, getApplicationContext());
-                            PreferenceUtils.saveEmail(email, getApplicationContext());
                             PreferenceUtils.saveUsername(username, getApplicationContext());
 
-                            Toast.makeText(getApplicationContext(), "user authenticated successfully " + email, Toast.LENGTH_SHORT)
+                            Toast.makeText(getApplicationContext(), "user authenticated successfully ", Toast.LENGTH_SHORT)
                                     .show();
                             Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                             startActivity(intent);
                             finish();
                         }else{
-                            Toast.makeText(getApplicationContext(), "Invalid username or password " + email, Toast.LENGTH_SHORT)
+                            Toast.makeText(getApplicationContext(), "Invalid username or password ", Toast.LENGTH_SHORT)
                                     .show();
                             emptyInputEditText();
                         }

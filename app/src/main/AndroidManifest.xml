@@ -24,6 +24,14 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".DashboardActivity" />
+        <activity
+            android:name=".AddTask"
+            android:exported="false"
+            android:parentActivityName=".DashboardActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".DashboardActivity"/>
+        </activity>
     </application>
 
 </manifest>
