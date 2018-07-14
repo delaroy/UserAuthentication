@@ -9,4 +9,5 @@ public interface Routes {
     String CREATE_USER = "createuser";
     String USER_LOGIN = "userlogin";
     String CREATE_TASK = "createtask";
+    String FETCH_TASK = "tasks";
 }
