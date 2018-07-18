@@ -11,6 +11,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -32,5 +33,10 @@ public interface UserService {
 
     @GET(Routes.FETCH_TASK + "/{username}")
     Call<Tasks> fetchTask(@Path("username") String username);
+
+    @FormUrlEncoded
+    @PUT(Routes.UPDATE_RECORD + "/{id}")
+    Call<Message> updateTask(@Field("title") String title, @Field("taskdate") String taskdate, @Field("tasktime") String tasktime, @Field("task") String task, @Path("id") int id);
+
 
 }

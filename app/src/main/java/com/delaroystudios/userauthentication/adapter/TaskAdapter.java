@@ -1,6 +1,7 @@
 package com.delaroystudios.userauthentication.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.delaroystudios.userauthentication.AddTask;
 import com.delaroystudios.userauthentication.R;
 import com.delaroystudios.userauthentication.model.Task;
 
@@ -20,6 +22,12 @@ import java.util.List;
  */
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> {
+
+    public static final String TASK_TITLE = "task_title";
+    public static final String TASK_ID = "task_id";
+    public static final String TASK_DATE = "task_date";
+    public static final String TASK_TIME = "task_time";
+    public static final String TASKS = "tasks";
 
     private Context context;
     private List<Task> tasks;
@@ -84,6 +92,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
                 @Override
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
+
+                    if (pos != RecyclerView.NO_POSITION) {
+                        Task clickedDataItem = tasks.get(pos);
+                        Intent intent = new Intent(context, AddTask.class);
+                        intent.putExtra(TASK_TITLE, clickedDataItem.getTitle());
+                        intent.putExtra(TASK_DATE, clickedDataItem.getTaskdate());
+                        intent.putExtra(TASK_TIME, clickedDataItem.getTasktime());
+                        intent.putExtra(TASK_ID, clickedDataItem.getId());
+                        intent.putExtra(TASKS, clickedDataItem.getTask());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
 
                 }
             });
