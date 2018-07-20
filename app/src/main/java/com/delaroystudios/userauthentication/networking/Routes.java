@@ -11,4 +11,5 @@ public interface Routes {
     String CREATE_TASK = "createtask";
     String FETCH_TASK = "tasks";
     String UPDATE_RECORD = "taskupdate";
+    String DELETE_RECORD = "taskdelete";
 }

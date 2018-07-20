@@ -1,9 +1,13 @@
 package com.delaroystudios.userauthentication;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -276,6 +280,42 @@ public class AddTask extends AppCompatActivity implements  TimePickerDialog.OnTi
       }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    /**
+     * This method is called after invalidateOptionsMenu(), so that the
+     * menu can be updated (some menu items can be hidden or made visible).
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        // If this is a new task, hide the "Delete" menu item.
+        if (updateTask == Boolean.FALSE) {
+            MenuItem menuItem = menu.findItem(R.id.discard);
+            menuItem.setVisible(false);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.discard:
+                // Pop up confirmation dialog for deletion
+                showDeleteConfirmationDialog();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
     protected void initpDialog() {
 
         pDialog = new ProgressDialog(this);
@@ -298,6 +338,63 @@ public class AddTask extends AppCompatActivity implements  TimePickerDialog.OnTi
         editTaskTitle.setText("");
         description.setText("");
     }
+
+    private void showDeleteConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_dialog_msg);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Delete" button, so delete the schedule.
+                deleteTask();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void deleteTask(){
+        showpDialog();
+        UserService taskService = DataServiceGenerator.createService(UserService.class, getApplication(), USER_BASE_URL);
+        Call<Message> call = taskService.deleteTask(taskId);
+
+        call.enqueue(new Callback<Message>() {
+            @Override
+            public void onResponse(Call<Message> call, Response<Message> response) {
+                if (response.isSuccessful()){
+                    if (response != null){
+                        hidepDialog();
+                        Message message = response.body();
+                        String responseMessage = message.getMessage();
+                        boolean error = message.getError();
+
+                        if (error == Boolean.FALSE) {
+                            Toast.makeText(AddTask.this, responseMessage, Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(AddTask.this, "error deleting record", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Message> call, Throwable t) {
+                hidepDialog();
+                Toast.makeText(AddTask.this, "error deleting record", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        finish();
+    }
+
 
 
 

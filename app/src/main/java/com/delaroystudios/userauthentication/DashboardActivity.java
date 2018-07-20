@@ -90,4 +90,10 @@ public class DashboardActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        fetchTasks();
+    }
+
 }

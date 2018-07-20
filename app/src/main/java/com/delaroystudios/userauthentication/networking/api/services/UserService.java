@@ -7,6 +7,7 @@ import com.delaroystudios.userauthentication.model.UserLogin;
 import com.delaroystudios.userauthentication.networking.Routes;
 
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -38,5 +39,6 @@ public interface UserService {
     @PUT(Routes.UPDATE_RECORD + "/{id}")
     Call<Message> updateTask(@Field("title") String title, @Field("taskdate") String taskdate, @Field("tasktime") String tasktime, @Field("task") String task, @Path("id") int id);
 
-
+    @DELETE(Routes.DELETE_RECORD + "/{id}")
+    Call<Message> deleteTask(@Path("id") int id);
 }

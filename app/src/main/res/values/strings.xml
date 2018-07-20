@@ -20,5 +20,11 @@
     <string name="desc">Task Description</string>
     <string name="submit">Submit</string>
     <string name="date">Date</string>
+    <string name="action_discard">Discard</string>
+    <string name="delete_dialog_msg">Delete this Schedule?</string>
+
+    <string name="delete">Delete</string>
+
+    <string name="cancel">Cancel</string>
     <string name="time">Time</string>
 </resources>
